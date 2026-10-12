@@ -1,0 +1,133 @@
+<main class="main">
+  <div class="content">
+    @if (!userId()) {
+    <div class="auth-card" style="background-color: #fabf9d;" >
+      <div class="auth-header">
+        <h1>Welcome!</h1>
+      </div>
+
+      <form class="auth-form" (ngSubmit)="onLoginSubmit()">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input class="auth-input" id="username" type="text" name="username" [(ngModel)]="username"
+            placeholder="Enter your username" autocomplete="username" required />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input class="auth-input" id="password" type="password" name="password" [(ngModel)]="password"
+            placeholder="Enter your password" autocomplete="current-password" required />
+        </div>
+
+        @if (errorMessage()) {
+        <div class="error-message-banner" role="alert" aria-live="assertive">
+          {{ errorMessage() }}
+        </div>
+        }
+
+        <button class="btn-submit" type="submit">
+          Sign in
+        </button>
+
+        @if (successMessage()) {
+        <div class="success-message-banner" role="alert" aria-live="assertive" style="color: #23f507;">
+          {{ successMessage() }}
+        </div>
+        }
+
+      </form>
+    </div>
+    }
+    @if (userId()) {
+    <div class="products-grid">
+      @if (products$ | async; as products) {
+      @for (item of products; track item.productID) {
+      <div class="product-card">
+        <div class="product-details">
+          <h3 class="title" [attr.title]="item.productName">{{ item.productName }}</h3>
+          <span class="category-badge">{{ item.categoryName }}</span>
+          <div class="product-footer">
+            <span class="price">R {{ item.unitPrice | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <button class="btn-add-to-cart" (click)="
+        addToCart({
+          productID: item.productID,
+          productName: item.productName,
+          unitPrice: item.unitPrice
+          })">
+          Add To Cart
+        </button>
+      </div>
+      } @empty {
+      <p class="no-data-msg">No products available.</p>
+      }
+      } @else {
+      <div class="loading-state-container">
+        <div class="spinner"></div>
+        <p>Fetching curated products for you...</p>
+      </div>
+      }
+    </div>
+
+    <div class="divider" role="separator" aria-label="Divider"></div>
+
+    <div class="cart-pill">
+      <span class="cart-count-indicator">🛒 Cart ({{ cart().length }})</span>
+      <br>
+      Customer Name
+      <br>
+      <input type="text" required name="customername" [(ngModel)]="customername" placeholder="Customer Name">
+      <br> <br>
+      <div class="cart-dropdown-list">
+        @for (item of cart(); track $index) {
+        <div class="cart-item-row">
+          <span class="hover-title">{{ item.productName }}</span>
+          <span class="hover-quantity"> x {{ item.quantity }} </span>
+          <span class="hover-title"> @ {{ item.unitPrice | number:'1.2-2'}}</span>
+          <span class="hover-sub total"> R{{ item.unitPrice* item.quantity | number:'1.2-2' }}</span>
+
+
+        </div>
+
+        <button class="btn-add-item" (click)="addToCart({
+          productID: item.productID,
+          productName: item.productName,
+          unitPrice: item.unitPrice
+          })" title="Add item">
+          +
+        </button>
+        <button class="btn-remove-item" (click)="removeFromCart(item.productID)" title="Remove item">
+          -
+        </button>
+
+        } @empty {
+        <div class="cart-item-row empty">Your cart is empty</div>
+        }
+        <button class="btn-order" (click)="submitOrder()">
+          <span class="logout-text">Checkout</span>
+        </button>
+        <span class="total"> R {{ cartTotal() | number:'1.2-2' }}</span>
+        @if (errorMessage()) {
+        <div class="error-message-banner" style="color: #ff4d4d;">
+          {{ errorMessage() }}
+        </div>
+
+        @if (successMessage()) {
+        <div class="success-message-banner" role="alert" aria-live="assertive" style="color: #23f507;">
+          {{ successMessage() }}
+        </div>
+        }
+        }
+      </div>
+    </div>
+
+    <button class="btn-logout" style="background-color: #bfc22a;" (click)="logout()">
+      <span class="logout-text">Logout</span>
+    </button>
+
+    }
+  </div>
+</main>
+<router-outlet />

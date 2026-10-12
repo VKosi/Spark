@@ -1,0 +1,8 @@
+{
+  "/InterviewAPI": {
+    "target": "https://sparkinterview-apim.azure-api.net",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

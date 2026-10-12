@@ -1,0 +1,745 @@
+@import url('https://googleapis.com');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #8ef5ec;
+    color: #0f172a;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.main {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #BB2649;
+    width: 100%;
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+/* ==============================
+   2. Main layout
+   Products on the left,
+   cart on the right
+================================= */
+
+.content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+    grid-template-areas:
+        "products cart"
+        ". logout";
+    align-items: start;
+    gap: 20px 24px;
+    width: 100%;
+    max-width: 1440px;
+    padding: 24px;
+    margin: 0 auto;
+}
+
+/* Angular login view */
+
+.auth-card {
+    grid-column: 1 / -1;
+    background-color: #ffa069;
+    width: 100%;
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+/* Hide unused template divider */
+
+.divider {
+    display: none;
+}
+
+/* ==============================
+   3. Products grid
+================================= */
+
+.products-grid {
+    grid-area: products;
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(min(100%, 210px), 1fr)
+    );
+    gap: 16px;
+    min-width: 0;
+    align-items: stretch;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    min-height: 180px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
+}
+
+.product-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    transform: translateY(-2px);
+}
+
+.product-details {
+    min-width: 0;
+    margin-bottom: 16px;
+}
+
+.title {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.category-badge {
+    display: inline-block;
+    max-width: 100%;
+    padding: 4px 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.product-footer {
+    margin-top: 14px;
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* ==============================
+   4. Buttons
+================================= */
+
+.btn-add-to-cart,
+.btn-order,
+.btn-submit {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 14px;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-add-to-cart,
+.btn-submit {
+    background-color: #2563eb;
+}
+
+.btn-add-to-cart:hover,
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-add-to-cart:focus-visible,
+.btn-order:focus-visible,
+.btn-submit:focus-visible,
+.btn-logout:focus-visible,
+.btn-add-item:focus-visible,
+.btn-remove-item:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* ==============================
+   5. Cart sidebar
+================================= */
+
+.cart-pill {
+    grid-area: cart;
+    min-width: 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+.cart-count-indicator {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cart-pill input[type="text"] {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 0.9rem;
+    outline: none;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.cart-pill input[type="text"]:focus,
+.auth-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* ==============================
+   6. Cart items
+================================= */
+
+.cart-dropdown-list {
+    min-width: 0;
+    margin-top: 16px;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.85rem;
+}
+
+.cart-item-row:last-of-type {
+    border-bottom: none;
+}
+
+.cart-item-row.empty {
+    justify-content: center;
+    padding: 24px 0;
+    color: #64748b;
+    text-align: center;
+    border-bottom: none;
+}
+
+.hover-title,
+.hover-quantity,
+.hover-sub {
+    overflow-wrap: anywhere;
+}
+
+.hover-title {
+    font-weight: 500;
+}
+
+.hover-quantity {
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.cart-item-row .total {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.item-details-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Add and remove quantity controls */
+
+.btn-add-item,
+.btn-remove-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    min-height: 30px;
+    margin: 6px 4px 8px 0;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-add-item {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.btn-add-item:hover {
+    background: #bbf7d0;
+}
+
+.btn-remove-item {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-remove-item:hover {
+    background: #fecaca;
+}
+
+/* ==============================
+   7. Checkout and total
+================================= */
+
+.btn-order {
+    margin-top: 18px;
+    background-color: #16a34a;
+}
+
+.btn-order:hover {
+    background-color: #15803d;
+}
+
+.total {
+    display: block;
+    margin-top: 14px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* ==============================
+   8. Login inputs and messages
+================================= */
+
+.auth-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 11px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.error-message-banner {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    color: #dc2626 !important;
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+}
+
+.btn-submit {
+    margin-top: 4px;
+}
+
+/* ==============================
+   9. Logout
+================================= */
+
+.btn-logout {
+    grid-area: logout;
+    justify-self: start;
+    padding: 9px 16px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* ==============================
+   10. Loading and empty states
+================================= */
+
+.loading-state-container,
+.no-data-msg {
+    color: #64748b;
+    text-align: center;
+}
+
+.loading-state-container {
+    grid-column: 1 / -1;
+    padding: 40px 16px;
+}
+
+.no-data-msg {
+    grid-column: 1 / -1;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 12px;
+    border: 3px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==============================
+   11. Responsive layout
+================================= */
+
+@media (max-width: 900px) {
+    .content {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "products"
+            "cart"
+            "logout";
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(min(100%, 200px), 1fr)
+        );
+    }
+
+    .cart-pill {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .products-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .product-card {
+        min-height: 0;
+        padding: 14px;
+    }
+
+    .cart-pill {
+        padding: 16px;
+    }
+
+    .auth-card {
+        margin: 24px auto;
+        padding: 22px;
+    }
+
+    .cart-item-row {
+        gap: 6px;
+    }
+}
+
+.content:has(> .auth-card) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 20px;
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(37, 99, 235, 0.09),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(14, 165, 233, 0.07),
+            transparent 35%
+        ),
+        #f8fafc;
+}
+
+/* Main login card */
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    margin: 0;
+    padding: 40px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow:
+        0 20px 50px rgba(15, 23, 42, 0.08),
+        0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+/* Optional branding header */
+.auth-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 18px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 1.65rem;
+    font-weight: 800;
+}
+
+.auth-header h1 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+    line-height: 1.25;
+}
+
+.auth-header p {
+    max-width: 320px;
+    margin: 0 auto;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+/* Form layout */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.auth-form .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+}
+
+/* Persistent input labels */
+.auth-form .input-group label {
+    display: block;
+    color: #334155;
+    font-size: 0.9rem;
+    font-weight: 650;
+    line-height: 1.4;
+}
+
+/* Username and password inputs */
+.auth-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding: 13px 15px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    outline: none;
+    box-shadow: none;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.auth-input::placeholder {
+    color: #64748b;
+    opacity: 1;
+}
+
+.auth-input:hover {
+    border-color: #94a3b8;
+}
+
+.auth-input:focus-visible {
+    border-color: #2563eb;
+    outline: 3px solid transparent;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+}
+
+/* Browser autofill */
+.auth-input:-webkit-autofill {
+    -webkit-text-fill-color: #0f172a;
+    box-shadow: 0 0 0 1000px #ffffff inset;
+}
+
+/* Sign-in button */
+.auth-form .btn-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
+    margin-top: 2px;
+    padding: 13px 18px;
+    border: 2px solid #1d4ed8;
+    border-radius: 10px;
+    background: #1d4ed8;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(29, 78, 216, 0.16);
+    transition:
+        background-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+.auth-form .btn-submit:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+    box-shadow: 0 6px 16px rgba(29, 78, 216, 0.22);
+}
+
+.auth-form .btn-submit:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.auth-form .btn-submit:focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: 4px;
+}
+
+/* Error feedback */
+.auth-form .error-message-banner {
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fef2f2;
+    color: #991b1b !important;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .auth-input,
+    .auth-form .btn-submit {
+        transition: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+    .content:has(> .auth-card) {
+        padding: 20px 14px;
+    }
+
+    .auth-card {
+        padding: 28px 22px;
+        border-radius: 16px;
+    }
+
+    .auth-header {
+        margin-bottom: 26px;
+    }
+
+    .auth-logo {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 16px;
+        border-radius: 15px;
+    }
+
+    .auth-form {
+        gap: 20px;
+    }
+}
