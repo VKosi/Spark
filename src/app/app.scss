@@ -34,11 +34,7 @@ button {
         border-color 0.15s ease;
 }
 
-/* ==============================
-   2. Main layout
-   Products on the left,
-   cart on the right
-================================= */
+
 
 .content {
     display: grid;
@@ -54,7 +50,6 @@ button {
     margin: 0 auto;
 }
 
-/* Angular login view */
 
 .auth-card {
     grid-column: 1 / -1;
@@ -341,6 +336,7 @@ button {
    7. Checkout and total
 ================================= */
 
+
 .btn-order {
     margin-top: 18px;
     background-color: #16a34a;
@@ -358,10 +354,6 @@ button {
     font-weight: 700;
     color: #0f172a;
 }
-
-/* ==============================
-   8. Login inputs and messages
-================================= */
 
 .auth-input {
     display: block;
@@ -391,10 +383,6 @@ button {
     margin-top: 4px;
 }
 
-/* ==============================
-   9. Logout
-================================= */
-
 .btn-logout {
     grid-area: logout;
     justify-self: start;
@@ -412,10 +400,6 @@ button {
     background: #e2e8f0;
     color: #0f172a;
 }
-
-/* ==============================
-   10. Loading and empty states
-================================= */
 
 .loading-state-container,
 .no-data-msg {
@@ -451,10 +435,6 @@ button {
         transform: rotate(360deg);
     }
 }
-
-/* ==============================
-   11. Responsive layout
-================================= */
 
 @media (max-width: 900px) {
     .content {
@@ -529,7 +509,6 @@ button {
         #f8fafc;
 }
 
-/* Main login card */
 .auth-card {
     width: 100%;
     max-width: 440px;
@@ -543,7 +522,6 @@ button {
         0 2px 8px rgba(15, 23, 42, 0.03);
 }
 
-/* Optional branding header */
 .auth-header {
     margin-bottom: 32px;
     text-align: center;
@@ -580,7 +558,6 @@ button {
     line-height: 1.65;
 }
 
-/* Form layout */
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -594,7 +571,6 @@ button {
     width: 100%;
 }
 
-/* Persistent input labels */
 .auth-form .input-group label {
     display: block;
     color: #334155;
@@ -603,7 +579,6 @@ button {
     line-height: 1.4;
 }
 
-/* Username and password inputs */
 .auth-input {
     display: block;
     width: 100%;
@@ -640,13 +615,11 @@ button {
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
 }
 
-/* Browser autofill */
 .auth-input:-webkit-autofill {
     -webkit-text-fill-color: #0f172a;
     box-shadow: 0 0 0 1000px #ffffff inset;
 }
 
-/* Sign-in button */
 .auth-form .btn-submit {
     display: flex;
     align-items: center;
@@ -687,7 +660,6 @@ button {
     outline-offset: 4px;
 }
 
-/* Error feedback */
 .auth-form .error-message-banner {
     margin: 0;
     padding: 12px 14px;
@@ -700,7 +672,6 @@ button {
     overflow-wrap: anywhere;
 }
 
-/* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
     .auth-input,
     .auth-form .btn-submit {
@@ -717,7 +688,6 @@ button {
     }
 }
 
-/* Small screens */
 @media (max-width: 480px) {
     .content:has(> .auth-card) {
         padding: 20px 14px;

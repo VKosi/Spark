@@ -54,9 +54,9 @@ export class App {
     const discount = 0;
     let discountPercentage = 0;
     if (subtotal > 500) {
-      discountPercentage = 0.10; // 10% discount for orders above R500
+      discountPercentage = 0.10; 
     } else if (subtotal > 200) {
-      discountPercentage = 0.03; // 3% discount for orders > R200 and <= R500
+      discountPercentage = 0.03; 
     }
     const discountAmount = subtotal * discountPercentage;
     const taxableAmount = subtotal - discountAmount;
@@ -105,6 +105,7 @@ export class App {
         this.successMessage.set('Login successful');
 
         console.log('Login successful: ', response.userID);
+        this.successMessage.set('');
       },
       error: (err) => {
         if (err.status === 401) {
@@ -119,6 +120,7 @@ export class App {
 
   submitOrder() {
     if (!this.customername) { this.errorMessage.set("Customer Name Required !"); return; }
+    this.errorMessage.set("");
     const items = this.cart();
     if (items.length === 0) return;
 
@@ -134,14 +136,11 @@ export class App {
       }))
     };
 
-    console.log('Valid JSON Order Payload:', JSON.stringify(orderPayload, null, 2));
-
     this.http.post(`${this.apiRoot}/Orders`, JSON.stringify(orderPayload, null, 2), { headers: this.headers })
       .subscribe({
         next: (response) => {
-          console.log('Order submitted successfully:', response);
+          this.errorMessage.set('');
           this.successMessage.set('Order submitted successfully');
-          //this.cart.set([]);
         },
         error: (err) => {
           this.errorMessage.set(err.error?.error || 'Invalid credentials');
@@ -155,11 +154,9 @@ export class App {
       const existingIndex = currentItems.findIndex(i => i.productID === product.productID);
 
       if (existingIndex > -1) {
-        // Create a copy of the existing item array
         const updated = [...currentItems];
         const currentItem = updated[existingIndex];
 
-        // Increment quantity and update total
         const newQuantity = currentItem.quantity + 1;
         updated[existingIndex] = {
           ...currentItem,
@@ -191,7 +188,6 @@ export class App {
         const currentItem = updated[existingIndex];
 
         if (currentItem.quantity > 1) {
-          // Decrease quantity by 1
           const newQuantity = currentItem.quantity - 1;
           updated[existingIndex] = {
             ...currentItem,
@@ -200,15 +196,12 @@ export class App {
           };
           return updated;
         } else {
-          // Remove item completely if quantity is 1
           return currentItems.filter(i => i.productID !== productID);
         }
       }
-
       return currentItems;
     });
   }
-
   logout() {
     localStorage.removeItem('user_id');
     localStorage.clear();
