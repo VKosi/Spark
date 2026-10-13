@@ -51,7 +51,6 @@ export class App {
   public cartTotal = computed(() => {
     const items = this.cart();
     const subtotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-    const discount = 0;
     let discountPercentage = 0;
     if (subtotal > 500) {
       discountPercentage = 0.10; 
@@ -61,7 +60,10 @@ export class App {
     const discountAmount = subtotal * discountPercentage;
     const taxableAmount = subtotal - discountAmount;
 
-    return Number(taxableAmount.toFixed(2));
+    return {
+      total:Number(taxableAmount.toFixed(2)),
+      subtotal: Number(subtotal.toFixed(2))
+    };
   });
 
   username = '';
@@ -94,7 +96,7 @@ export class App {
   onLoginSubmit() {
     if (!this.username || !this.password) return;
 
-    this.errorMessage.set(null);
+    this.errorMessage.set('');
 
     this.login().subscribe({
       next: (response) => {
@@ -123,8 +125,6 @@ export class App {
     this.errorMessage.set("");
     const items = this.cart();
     if (items.length === 0) return;
-
-    const totalValue = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
 
     const orderPayload: OrderPayload = {
       userID: this.userId()!,

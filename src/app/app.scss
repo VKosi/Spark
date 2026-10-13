@@ -355,6 +355,15 @@ button {
     color: #0f172a;
 }
 
+.sub-total {
+    display: block;
+    margin-top: 14px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
 .auth-input {
     display: block;
     width: 100%;
@@ -385,10 +394,11 @@ button {
 
 .btn-logout {
     grid-area: logout;
-    justify-self: start;
+    background-color: #f74813;
+    justify-self: right;
     padding: 9px 16px;
     background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #c2c3c4;
     border-radius: 7px;
     color: #475569;
     font-size: 0.875rem;

@@ -105,16 +105,20 @@
         } @empty {
         <div class="cart-item-row empty">Your cart is empty</div>
         }
+        <br>
+        <br>
+        total Excluding Tax:<span class="sub-total"> R {{ cartTotal().subtotal| number:'1.2-2' }}</span>
         <button class="btn-order" (click)="submitOrder()">
           <span class="logout-text">Checkout</span>
         </button>
-        <span class="total"> R {{ cartTotal() | number:'1.2-2' }}</span>
-        @if (errorMessage()) {
+        <br>
+        total Including Tax:<span class="total"> R {{ cartTotal().total| number:'1.2-2' }}</span>
+        @if (errorMessage() && !successMessage()) {
         <div class="error-message-banner" style="color: #ff4d4d;">
           {{ errorMessage() }}
         </div>
 
-        @if (successMessage()) {
+        @if (successMessage() && !errorMessage()) {
         <div class="success-message-banner" role="alert" aria-live="assertive" style="color: #23f507;">
           {{ successMessage() }}
         </div>
@@ -123,7 +127,7 @@
       </div>
     </div>
 
-    <button class="btn-logout" style="background-color: #bfc22a;" (click)="logout()">
+    <button class="btn-logout" (click)="logout()">
       <span class="logout-text">Logout</span>
     </button>
 
